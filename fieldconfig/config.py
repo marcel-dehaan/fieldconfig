@@ -69,8 +69,17 @@ class Config(Mapping):
         return self._frozen
 
     def update(self, updates: Mapping[str, Any]):
-        for key, value in updates.items():
-            self.__setattr__(key, value)
+        for k, v in updates.items():
+            if k not in self._fields:
+                self[k] = v
+
+            elif isinstance(self._fields[k], Config) and isinstance(
+                v, Mapping
+            ):
+                self._fields[k].update(v)
+
+            else:
+                self[k] = v
 
     def is_type_safe(self):
         return self._type_safe
@@ -96,9 +105,17 @@ class Config(Mapping):
 
         if frozen:
             raise ValueError("Config is frozen")
-
         if key in config._fields:
             field = config._fields[key]
+            if isinstance(field, Config):
+                if isinstance(value, Mapping):
+                    config._fields[key] = Config(value)
+                else:
+                    raise TypeError(
+                        f"Failed to override field '{key}' with value '{value}' "
+                        f"of type '{type(value)}'. The field '{key}' must be "
+                        "assigned a value of type 'Mapping'."
+                    )
             field.set(value, config._type_safe)
         else:
             if isinstance(value, Config | Field):

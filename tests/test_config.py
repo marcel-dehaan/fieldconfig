@@ -94,20 +94,48 @@ class ConfigTest(parameterized.TestCase):
             cfg = Config()
             cfg.__str__ = 1
 
-    def test_update(self):
-        cfg = Config()
-        cfg.a = Config()
-        cfg.a.b = Config()
-        cfg.a.b.c = 1
-        cfg.a.b.d = 2
-        cfg.update({"a.b.c": 3, "a.b.d": 4})
+        with self.assertRaisesWithLiteralMatch(
+            TypeError,
+            (
+                "Failed to override field 'a' with value '1' of type '<class 'int'>'. "
+                "The field 'a' must be assigned a value of type 'Mapping'."
+            ),
+        ):
+            cfg = Config({"a": {"b": 1}})
+            cfg.a = 1
 
+    def test_update(self):
+
+        # initialise from dict
+        cfg = Config()
+        cfg.update(_TEST_MAPPING)
+        self.assertConfigEqual(cfg, _TEST_MAPPING)
+
+        # update with flat dict
+        cfg = Config({"a": {"b": {"c": 1, "d": 2.0}}})
+        updates = {"a.b.c": 3, "a.b.d": 4, "a.b.e": 5}
+        cfg.update(updates)
         self.assertEqual(cfg.a.b.c, 3)
         self.assertEqual(cfg.a.b.d, 4)
+        self.assertIsInstance(cfg.a.b.d, float)
+        self.assertEqual(cfg.a.b.e, 5)
 
-        cfg = Config(create_intermediate_attributes=True)
-        cfg.update({"a.b.c": 3})
+        # update with nested dict
+        cfg = Config({"a": {"b": {"c": 1, "d": 2.0}}})
+        updates = {"a": {"b": {"c": 3, "d": 4, "e": 5}}}
+        cfg.update(updates)
         self.assertEqual(cfg.a.b.c, 3)
+        self.assertEqual(cfg.a.b.d, 4.0)
+        self.assertIsInstance(cfg.a.b.d, float)
+        self.assertEqual(cfg.a.b.e, 5)
+
+        # nested dict containing Config
+        cfg = Config({"a": {"b": {"c": 1, "d": 2.0}}})
+        updates = {"a": Config({"b": {"d": 4.0}})}
+        cfg.update(updates)
+        self.assertEqual(cfg.a.b.d, 4)
+        self.assertIsInstance(cfg.a.b.d, float)
+
     def test_to_flat_dict(self):
         cfg = Config({"a": 1, "b": {"c": {"d": 3}}})
         self.assertDictEqual(cfg.to_flat_dict(), {"a": 1, "b.c.d": 3})
