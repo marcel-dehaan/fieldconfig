@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fieldconfig"
-version = "0.1.2"
+version = "0.1.3"
 description = "Configuration Managment in Python"
 license = "Apache-2.0"
 authors = ["Marcel de Haan <mdehaan35@gmail.com>"]
