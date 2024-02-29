@@ -1,8 +1,8 @@
-##ConfigField
+## ConfigField
 Configuration managment for Python.
 Inspired by [ml_collections](https://github.com/google/ml_collections)
 
-###Features
+### Features
 - Dot-Based access to fields
 - Type-safe
 - Field value validation
