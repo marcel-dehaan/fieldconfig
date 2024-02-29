@@ -4,7 +4,7 @@ import difflib
 from fieldconfig.field import Field
 
 
-class Config:
+class Config(Mapping):
     def __init__(
         self,
         data: Optional[Mapping[str, Any]] = None,
@@ -77,6 +77,12 @@ class Config:
 
     def __iter__(self):
         return self._fields.__iter__()
+
+    def __len__(self):
+        return len(self._fields)
+
+    def __contains__(self, key):
+        return key in self._fields
 
     def __setitem__(self, key, value):
         config = self
