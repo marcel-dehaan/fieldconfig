@@ -226,31 +226,3 @@ def _suggest_alternative(word, possibilities, message="") -> str:
             message += "\n"
         message += f'Did you mean "{matches[0]}" instead of "{word}"?'
     return message
-
-
-def get_config():
-
-    c = Config()
-    c.freeze = 1
-
-    c = Config(create_intermediate_attributes=True)
-    c.candlestick.panel.height = Field(
-        20, ftype=float, validator=lambda x: x > 0
-    )
-    c.candlestick.panel.width = Field(
-        20, ftype=float, validator=lambda x: x > 0
-    )
-    c.candlestick.zorder = 14
-    c.candlestick.body.relwidth = 0.8
-    c.candlestick.body.alpha = 1.0
-    c.candlestick.body.up_color = "#4EA59A"
-    c.candlestick.body.down_color = "#E05D57"
-    c.candlestick.wick.color = "#000000"
-    c.candlestick.wick.linewidth = 1
-    c.candlestick.wick.alpha = 1.0
-    c.candlestick.doji.color = "#000000"
-    c.candlestick.doji.linewidth = 1
-    c.candlestick.doji.alpha = 1.0
-    # c.freeze()
-    # c.disable_gen_itermediaries()
-    return c
