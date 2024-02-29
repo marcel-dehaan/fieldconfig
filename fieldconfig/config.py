@@ -40,6 +40,9 @@ class Config:
     def to_dict(self):
         return _config_to_dict(self)
 
+    def to_flat_dict(self):
+        return _config_to_flat_dict(self)
+
     def items(self):
         return self._fields.items()
 
@@ -180,6 +183,37 @@ def _config_to_dict(config: Config) -> dict:
             value = config._fields[key].get()
         config_dict[key] = value
     return config_dict
+
+
+def _config_to_flat_dict(config: Config, prefix="") -> dict:
+    """
+    Convert a Config object to a flat dot-notation dictionary recursively.
+
+    This function recursively converts a Config object and its nested
+    Config objects into a flat dot-notation dictionary. It includes only
+    public attributes and their corresponding values.
+
+    Args:
+        config (Config): The Config object to be converted.
+        prefix (str): The prefix for dot-notation keys.
+
+    Returns:
+        dict: A flat dictionary with dot-notation keys.
+    """
+    flat_dict = {}
+    for key in config:
+        if key.startswith("_"):
+            continue
+        full_key = f"{prefix}.{key}" if prefix else key
+        if isinstance(config._fields[key], Config):
+            nested_dict = _config_to_flat_dict(
+                config._fields[key], prefix=full_key
+            )
+            flat_dict.update(nested_dict)
+        elif isinstance(config._fields[key], Field):
+            value = config._fields[key].get()
+            flat_dict[full_key] = value
+    return flat_dict
 
 
 def _fill_config_from_mapping(

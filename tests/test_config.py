@@ -108,3 +108,6 @@ class ConfigTest(parameterized.TestCase):
         cfg = Config(create_intermediate_attributes=True)
         cfg.update({"a.b.c": 3})
         self.assertEqual(cfg.a.b.c, 3)
+    def test_to_flat_dict(self):
+        cfg = Config({"a": 1, "b": {"c": {"d": 3}}})
+        self.assertDictEqual(cfg.to_flat_dict(), {"a": 1, "b.c.d": 3})
