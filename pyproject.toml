@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "fieldconfig"
+version = "0.1.0"
+description = "Configuration Managment in Python"
+license = "Apache-2.0"
+authors = ["Marcel de Haan <mdehaan35@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/marcel-dehaan/fieldconfig"
+packages = [{include = "fieldconfig"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+PyYAML = "*"
+
+
+[tool.poetry.dev-dependencies]
+black = "*"
+absl-py = "*"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
