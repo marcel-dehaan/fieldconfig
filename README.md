@@ -1,12 +1,12 @@
 ##ConfigField
-####Configuration Managment for Python
+Configuration managment for Python.
 Inspired by [ml_collections](https://github.com/google/ml_collections)
 
-#####Features
-- Dot-Based Access to Fields
-- Type-Safety 
-- Field Value Validation
-- Intermediate Attribute Creation
+###Features
+- Dot-Based access to fields
+- Type-safe
+- Field value validation
+- Intermediate attribute creation
 - Freezing
 
 
