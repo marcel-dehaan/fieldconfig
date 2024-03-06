@@ -82,6 +82,27 @@ class ConfigTest(parameterized.TestCase):
             c.freeze()
             c.a.b = 1
 
+    def test_lock(self):
+        cfg = Config()
+        self.assertFalse(cfg.is_locked())
+        cfg.lock()
+        self.assertTrue(cfg.is_locked())
+
+        with self.assertRaisesWithLiteralMatch(
+            ValueError, "Cannot add key b because the config is locked."
+        ):
+            c = Config()
+            c.lock()
+            c.b = 2
+        with self.assertRaisesWithLiteralMatch(
+            ValueError,
+            'Cannot add key aaaab because the config is locked.\nDid you mean "aaaaa" instead of "aaaab"?',
+        ):
+            c = Config()
+            c.aaaaa = 1
+            c.lock()
+            c.aaaab = 2
+
     def test_set_attribute(self):
         cfg = Config()
         cfg.b = 1
@@ -136,6 +157,6 @@ class ConfigTest(parameterized.TestCase):
         self.assertEqual(cfg.a.b.d, 4)
         self.assertIsInstance(cfg.a.b.d, float)
 
-    def test_to_flat_dict(self):
+    def test_as_flat_dict(self):
         cfg = Config({"a": 1, "b": {"c": {"d": 3}}})
-        self.assertDictEqual(cfg.to_flat_dict(), {"a": 1, "b.c.d": 3})
+        self.assertDictEqual(cfg.as_flat_dict(), {"a": 1, "b.c.d": 3})
