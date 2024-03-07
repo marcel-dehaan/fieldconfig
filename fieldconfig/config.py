@@ -32,7 +32,7 @@ class Config(Mapping):
 
         super(Config, config_copy).__setattr__("_frozen", self._frozen)
         super(Config, config_copy).__setattr__("_type_safe", self._type_safe)
-        super(Config, config_copy).__setattr__("_locked", self.locked)
+        super(Config, config_copy).__setattr__("_locked", self._locked)
 
         super(Config, config_copy).__setattr__(
             "_create_intermediate_attributes",

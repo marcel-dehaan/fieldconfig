@@ -201,3 +201,8 @@ class ConfigTest(parameterized.TestCase):
         cfg = Config({"a": {"bbbb": "1"}})
         with self.assertRaises(KeyError):
             del cfg["a.bbba"]
+
+    def test_copy(self):
+        cfg = Config({"foo": 1, "nest": {"bar": [1, 2]}})
+        cfg_copy = cfg.copy()
+        self.assertDictEqual(cfg.to_dict(), cfg_copy.to_dict())
