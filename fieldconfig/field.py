@@ -150,9 +150,7 @@ class Field:
         if self._validator:
             if not self._validator(value):
                 source_code = inspect.getsource(self._validator).strip()
-                msg = _validation_error_message(
-                    value=value, source_code=source_code
-                )
+                msg = _validation_error_message(value=value, source_code=source_code)
                 raise ValidationError(msg)
 
         self._value = value
