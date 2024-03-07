@@ -37,12 +37,19 @@ class ConfigTest(parameterized.TestCase):
 
         # intermediate attribute creation enabled
         cfg = Config(create_intermediate_attributes=True)
+        self.assertTrue(cfg.is_intermediate_attribute_creation_enabled())
         cfg.a.b = 1
         self.assertEqual(cfg.a.b, 1)
+        cfg.disable_intermediate_attribute_creation()
+        self.assertFalse(cfg.is_intermediate_attribute_creation_enabled())
 
         # enable intermediate attribute creation after instantiation
-        cfg = Config(create_intermediate_attributes=False)
+        cfg = Config()
+        self.assertFalse(cfg.is_intermediate_attribute_creation_enabled())
+
         cfg.enable_intermediate_attribute_creation()
+        self.assertTrue(cfg.is_intermediate_attribute_creation_enabled())
+
         cfg.a.b = 1
         self.assertEqual(cfg.a.b, 1)
 

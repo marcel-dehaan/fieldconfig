@@ -56,9 +56,16 @@ class Config(Mapping):
         """Freezes the configuration, making it read-only."""
         super(Config, self).__setattr__("_frozen", True)
 
+    def enable_intermediate_attribute_creation(self):
+        """Enables automatic generation of intermediaries."""
+        super(Config, self).__setattr__("_create_intermediate_attributes", True)
+
     def disable_intermediate_attribute_creation(self):
         """Disables automatic generation of intermediaries."""
         super(Config, self).__setattr__("_create_intermediate_attributes", False)
+
+    def is_intermediate_attribute_creation_enabled(self):
+        return self._create_intermediate_attributes
 
     def lock(self):
         super(Config, self).__setattr__("_locked", True)
@@ -68,10 +75,6 @@ class Config(Mapping):
 
     def is_locked(self):
         return self._locked
-
-    def enable_intermediate_attribute_creation(self):
-        """Enables automatic generation of intermediaries."""
-        super(Config, self).__setattr__("_create_intermediate_attributes", True)
 
     def is_frozen(self):
         return self._frozen
