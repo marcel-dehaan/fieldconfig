@@ -98,17 +98,26 @@ class ConfigTest(parameterized.TestCase):
         with self.assertRaisesWithLiteralMatch(
             ValueError, "Cannot add key b because the config is locked."
         ):
-            c = Config()
-            c.lock()
-            c.b = 2
+            cfg = Config()
+            cfg.lock()
+            cfg.b = 2
         with self.assertRaisesWithLiteralMatch(
             ValueError,
             'Cannot add key aaaab because the config is locked.\nDid you mean "aaaaa" instead of "aaaab"?',
         ):
-            c = Config()
-            c.aaaaa = 1
-            c.lock()
-            c.aaaab = 2
+            cfg = Config()
+            cfg.aaaaa = 1
+            cfg.lock()
+            cfg.aaaab = 2
+
+        with self.assertRaisesWithLiteralMatch(
+            AttributeError,
+            "'This Config is currently locked. Please unlock it before attempting to delete a field.'",
+        ):
+            cfg = Config()
+            cfg.a = 1
+            cfg.lock()
+            del cfg.a
 
     def test_set_attribute(self):
         cfg = Config()
