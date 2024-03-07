@@ -174,3 +174,6 @@ class Field:
             f"required={self._required}"
             ")"
         )
+
+    def __repr__(self):
+        return self.__str__()
