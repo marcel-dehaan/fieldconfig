@@ -40,6 +40,23 @@ class Config(Mapping):
         )
         return config_copy
 
+    def __delitem__(self, key):
+        if self.is_locked():
+            raise KeyError(
+                "This Config is currently locked. Please unlock it "
+                "before attempting to delete a field."
+            )
+
+        if "." in key:
+            key, rest = key.split(".", 1)
+            del self[key][rest]
+            return
+
+        try:
+            del self._fields[key]
+        except KeyError as e:
+            raise KeyError(_suggest_alternative(key, self._fields), e)
+
     def to_dict(self):
         return _config_to_dict(self)
 

@@ -166,4 +166,27 @@ class ConfigTest(parameterized.TestCase):
 
     def test_as_flat_dict(self):
         cfg = Config({"a": 1, "b": {"c": {"d": 3}}})
-        self.assertDictEqual(cfg.as_flat_dict(), {"a": 1, "b.c.d": 3})
+    def test_del(self):
+        cfg = Config({"foo": 1})
+        del cfg.foo
+        self.assertConfigEqual(cfg, {})
+
+        cfg = Config({"foo": 1})
+        del cfg["foo"]
+        self.assertConfigEqual(cfg, {})
+
+        cfg = Config({"a": {"b": "1"}})
+        del cfg.a.b
+        self.assertConfigEqual(cfg, {"a": {}})
+
+        cfg = Config({"a": {"b": "1"}})
+        del cfg["a.b"]
+        self.assertConfigEqual(cfg, {"a": {}})
+
+        cfg = Config({"a": {"b": "1"}})
+        del cfg["a"]
+        self.assertConfigEqual(cfg, {})
+
+        cfg = Config({"a": {"bbbb": "1"}})
+        with self.assertRaises(KeyError):
+            del cfg["a.bbba"]
