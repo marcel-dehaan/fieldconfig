@@ -1,5 +1,5 @@
-## ConfigField
-ConfigField is a configuration management library for Python.
+## FieldConfig
+FieldConfig is a configuration management library for Python.
 
 ### **Features:**
 - Dot-based access
@@ -37,9 +37,9 @@ pip install fieldconfig
 
 <a id="configuration-structure"></a>
 ## Configuration Structure
-Configurations generated using ConfigField are structured as branches composed of Config objects and leaves populated with Fields. The Config object governs mutability, allowing for actions such as Freezing, Locking, and Intermediate attribute creation, as well as type-safety of all its Fields. Fields, on the other hand, can enforce value validation through user-defined functions and retain information about the field type.
+Configurations generated using FieldConfig are structured as branches composed of Config objects and leaves populated with Fields. The Config object governs mutability, allowing for actions such as Freezing, Locking, and Intermediate attribute creation, as well as type-safety of all its Fields. Fields, on the other hand, can enforce value validation through user-defined functions and retain information about the field type.
 
-ConfigField is heavily inspired by [ml_collections](https://github.com/google/ml_collections). However, it provides an optional Field validation mechanism allowing any validation function, preventing misuse beyond the default top-level type checking. This is particularly beneficial for configurations exposed to and updatable by external users. Additionally, its intermediate attribute creation mechanism avoids boilerplate code when defining nested configurations.
+FieldConfig is heavily inspired by [ml_collections](https://github.com/google/ml_collections). However, it provides an optional Field validation mechanism allowing any validation function, preventing misuse beyond the default top-level type checking. This is particularly beneficial for configurations exposed to and updatable by external users. Additionally, its intermediate attribute creation mechanism avoids boilerplate code when defining nested configurations.
 
 <a id="usage"></a>
 ## Usage

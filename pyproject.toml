@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "fieldconfig"
-version = "0.1.5"
-description = "ConfigField is a configuration management library for Python."
+version = "0.1.6"
+description = "FieldConfig is a configuration management library for Python."
 license = "Apache-2.0"
 authors = ["Marcel de Haan <mdehaan35@gmail.com>"]
 readme = "README.md"
