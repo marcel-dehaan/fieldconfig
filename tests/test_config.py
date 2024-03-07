@@ -164,8 +164,10 @@ class ConfigTest(parameterized.TestCase):
         self.assertEqual(cfg.a.b.d, 4)
         self.assertIsInstance(cfg.a.b.d, float)
 
-    def test_as_flat_dict(self):
+    def test_to_flat_dict(self):
         cfg = Config({"a": 1, "b": {"c": {"d": 3}}})
+        self.assertDictEqual(cfg.to_flat_dict(), {"a": 1, "b.c.d": 3})
+
     def test_del(self):
         cfg = Config({"foo": 1})
         del cfg.foo

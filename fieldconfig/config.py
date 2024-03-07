@@ -60,7 +60,7 @@ class Config(Mapping):
     def to_dict(self):
         return _config_to_dict(self)
 
-    def as_flat_dict(self):
+    def to_flat_dict(self):
         return _config_to_flat_dict(self)
 
     def items(self):
